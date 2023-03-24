@@ -1,0 +1,5 @@
+  1 AuthType      Basic
+  2 AuthName      "Basic Authentication"
+  3 AuthUserFile  /etc/httpd/secrets/htpasswd
+  4 Require       valid-user
+

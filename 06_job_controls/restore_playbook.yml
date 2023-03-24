@@ -1,0 +1,19 @@
+---
+- name: Restore
+  hosts: databases
+  gather_facts: no
+  tasks:
+    # 서비스 내림
+    # 패키지 삭제
+    - name: 서비스
+      service:
+        name: mariadb
+        state: stopped
+        enabled: no
+    
+    - name: 패키지
+      yum:
+        name: 
+          - mariadb-server
+          - httpd
+        state: absent

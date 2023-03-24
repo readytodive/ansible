@@ -1,0 +1,50 @@
+---
+- name: Restore playbook.yml
+  hosts: webservers
+  gather_facts: no
+  vars_files: vars.yml
+  tasks:
+
+# 방화벽 내림 - http, https
+# 웹 서비스 설정 파일 제거 - /var/www/html/index.html
+# 키 제거 
+# * /etc/pki/tls/private/localhost.key
+# * /etc/pki/tls/certs/localhost.crt
+# 디렉토리 제거 - /etc/pki/tls/{private, certs}
+# 서비스 내림 - httpd, firewalld
+# 패키지 제거 - httpd, mod_ssl, firewalld
+
+    - name: 방화벽 내림 - http, https
+      firewalld:
+        service: "{{ item }}"
+        state: disabled
+      with_items: "{{ fw_svcs }}"
+      ignore_errors: yes
+
+    - name: 웹서비스 설정 파일 제거 - {{ index_dest }}
+      file:
+        path: "{{ index_dest }}"
+        state: absent
+
+    - name: TLS 키 제거
+      file:
+        path: "{{ item.dest }}"
+        state: absent
+      with_items: "{{ tls_cert_files }}"
+
+    - name: 디렉토리 제거
+      file:
+        path: "{{ ssl_dir }}"
+        state: absent
+
+    - name: 서비스 비활성화 - httpd, firewalld
+      service:
+        name: "{{ item }}"
+        state: stopped
+      with_items: "{{ services }}"
+
+    - name: 패키지 제거 - httpd, mod_ssl, firewalld
+      yum: 
+        name: "{{ item }}"
+        state: absent
+      with_items: "{{ packages }}"

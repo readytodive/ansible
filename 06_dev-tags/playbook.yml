@@ -1,0 +1,24 @@
+---
+- name: MAIL 작업
+  hosts: all
+  tasks: 
+
+    - name: 
+      include: configure_mail.yml
+
+
+  handlers:
+    - name: start_postfix
+      yum:
+        name: postfix
+        state: latest
+
+    - name: start_dovecot
+      yum:
+        name: dovecot
+        state: latest
+
+    - name: restart_postfix
+      get_url:
+        url: http://ansible.example.com/main.cf
+        dest: /etc/postfix/main.cf

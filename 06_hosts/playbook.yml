@@ -1,0 +1,13 @@
+---
+- name: File Copy
+  hosts: webservers
+  tasks:
+    # files/hosts -> copy -> 관리 대상 호스트
+    - name: hosts 파일 전송
+      copy:
+        src: files/hosts
+        dest: /etc/hosts
+        owner: root
+        group: root
+        mode: '0644'
+        

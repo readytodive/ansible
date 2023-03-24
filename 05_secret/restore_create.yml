@@ -1,0 +1,12 @@
+# 유저 삭제
+---
+- name: 유저 삭제삭제
+  hosts: web2.example.com
+  vars_files: secret2.yml
+  tasks:
+    - name: 유저 삭제
+      user:
+        name: "{{ username }}"
+        state: absent
+        remove: yes
+

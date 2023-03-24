@@ -1,0 +1,14 @@
+# 계획 세우기 (httpd, mariadb-server, tree)
+
+---
+- name: Remove package
+  hosts: all
+  tasks:
+    - name: 설치된 packages 지우기
+      yum:
+        name: 
+          - httpd
+          - mariadb
+          - mutt
+          - tree
+        state: absent

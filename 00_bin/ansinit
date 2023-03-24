@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# ansible.cfg
+cat << EOF > ansible.cfg
+[defaults]
+inventory = ./inventory
+ 
+[privilege_escalation]
+become = true
+ 
+EOF
+
+# inventory
+cat << EOF > inventory
+web1
+web2
+EOF

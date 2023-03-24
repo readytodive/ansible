@@ -1,0 +1,19 @@
+---
+- name: Restore playbook.yml
+  hosts: all
+  tasks:
+    # postfix 서비스 비활성화
+    # postfix, dovecot 패키지 삭제
+    - name: 서비스 비활성화 - postfix
+      service:
+        name: postfix
+        state: stopped
+        enabled: no
+
+    - name: 패키지 삭제 - postfix, dovecot
+      yum:
+        name:
+          - postfix
+          - dovecot
+        state: absent
+        
